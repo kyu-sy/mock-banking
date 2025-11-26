@@ -2,6 +2,7 @@ package com.financial.security.mock_banking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 @Configuration //이 파일이 애플리케이션 설정을 정의하는 파일임을 명시
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final JwtTokenProvider tokenProvider;
@@ -57,6 +59,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/users/signup", "/api/v1/auth/**").permitAll()
 
@@ -68,7 +72,6 @@ public class SecurityConfig {
 
         ;
 
-        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
         return http.build();
     }

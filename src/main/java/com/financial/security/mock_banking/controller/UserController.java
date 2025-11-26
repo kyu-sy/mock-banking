@@ -4,6 +4,7 @@ import com.financial.security.mock_banking.domain.User;
 import com.financial.security.mock_banking.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,9 +30,20 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<Iterable<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
+//    @GetMapping
+//    public ResponseEntity<Iterable<User>> getAllUsers() {
+//        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
+//    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<String> getMyProfile() {
+        return ResponseEntity.ok("나의 프로필 정보입니다.");
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/admin/all-users")
+    public ResponseEntity<String> getAllUsers() {
+        return ResponseEntity.ok("관리자용: 모든 사용자 목록을 조회합니다.");
     }
 
 }

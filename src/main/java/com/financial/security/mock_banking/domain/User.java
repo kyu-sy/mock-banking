@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 @Table(name = "Users")
@@ -21,6 +23,9 @@ public class User {
 
     @Column(nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User() {}
 
@@ -53,7 +58,16 @@ public class User {
     }
 
     public void setName(String name) {
+
         this.name = name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

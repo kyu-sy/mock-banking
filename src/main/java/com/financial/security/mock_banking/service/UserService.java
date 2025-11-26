@@ -2,6 +2,7 @@ package com.financial.security.mock_banking.service;
 
 import com.financial.security.mock_banking.domain.User;
 import com.financial.security.mock_banking.repository.UserRepository;
+import com.financial.security.mock_banking.domain.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,8 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+
+        user.setRole(Role.ROLE_USER);
 
         return userRepository.save(user);
     }
